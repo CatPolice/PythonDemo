@@ -3,7 +3,7 @@ from urllib.request import urlopen
 from urllib.error import HTTPError , URLError
 from bs4 import BeautifulSoup
 
-urls = ['http://www.mm131.com/xinggan/']
+urls = ['http://www.dbmeinv.com']
 
 
 header = {
@@ -52,12 +52,25 @@ def getTitle(url):
 
 
 def getSubInfo(url):
-    html = urlopen(url)
-    bsObj = BeautifulSoup(html.read())
-    nsmaList =  bsObj.findAll("dt",{"class":"public-title"})
-    for name in nsmaList:
-        print(name.get_text())
 
+    request = urllib.request.Request(url)
+    request.add_header('User-Agent','Mozilla/5.0')#
+    html = urlopen(request)
+    bsObj = BeautifulSoup(html.read())
+
+    # print(bsObj)
+
+    # nsmaList =  bsObj.findAll("dt",{"class":"public-title"})
+    # for name in nsmaList:
+    #     print(name.get_text())
+
+
+    imgList = bsObj.findAll("img",{"class":"height_min"})
+    for name in imgList:
+        # print(name)
+        # print(name.get('title'))
+        # print(name.get('src'))
+        print(name.attrs['src']) #获取标签对象全部属性
 
 
 # title = getTitle('http://www.pythonscraping.com/pages/page1.htm')
